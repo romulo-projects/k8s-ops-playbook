@@ -45,4 +45,5 @@ kubectl get pods -A -o json | jq -r '
 ## Insight
 
 Se `requests` não existe → scheduler toma decisão ruim
+
 Se `limits` não existe → risco de noisy neighbor
