@@ -1,0 +1,6 @@
+alias k="kubectl"
+alias kgp="kubectl get pods"
+alias kgn="kubectl get nodes"
+alias kdp="kubectl describe pod"
+alias kgs="kubectl get svc"
+alias kctx="kubectl config current-context"
