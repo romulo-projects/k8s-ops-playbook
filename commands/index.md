@@ -53,6 +53,18 @@ Navegação central dos comandos disponíveis no playbook.
 
 ---
 
+## Storage
+
+| Comando                                          | Descrição                                                       |
+| ------------------------------------------------ | --------------------------------------------------------------- |
+| [Unbound PVCs](./storage/pvc-unbound.md)         | Identifica PersistentVolumeClaims que não estão em estado Bound |
+| [Orphan PVs](./storage/pv-orphan.md)             | Detecta PersistentVolumes sem associação com PVC                |
+| [PVC Usage](./storage/pvc-usage.md)              | Lista capacidade solicitada pelos PVCs para análise de consumo  |
+| [PVC Pending](./storage/pvc-pending.md)          | Identifica falhas de provisionamento de storage                 |
+| [PVC to PV Mapping](./storage/pvc-pv-mapping.md) | Mostra a relação entre PVC, PV e StorageClass                   |
+
+---
+
 ## Fluxos comuns de troubleshooting
 
 ### Pod reiniciando
