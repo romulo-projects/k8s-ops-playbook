@@ -25,6 +25,12 @@ Browse completo dos comandos disponíveis:
 
 ---
 
+## Troubleshooting Guide
+
+[docs/k8s-troubleshooting-playbook.md](./docs/k8s-troubleshooting-playbook.md)
+
+---
+
 ## Estrutura
 
 ```
