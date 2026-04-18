@@ -25,6 +25,12 @@ Browse completo dos comandos disponíveis:
 
 ---
 
+## Troubleshooting Guide
+
+[docs/k8s-troubleshooting-playbook.md](./docs/k8s-troubleshooting-playbook.md)
+
+---
+
 ## Estrutura
 
 ```
@@ -106,6 +112,21 @@ Antes de executar qualquer comando:
 * [ ] Scripts reutilizáveis
 * [ ] Integração com ferramentas de observabilidade
 * [ ] Evolução para CLI
+
+---
+
+## Mais informações
+
+Para aprofundar nos conceitos e recursos utilizados neste repositório, consulte a documentação oficial do Kubernetes:
+
+* Kubernetes Documentation: https://kubernetes.io/docs/
+* kubectl Reference: https://kubernetes.io/docs/reference/kubectl/
+* API Reference: https://kubernetes.io/docs/reference/kubernetes-api/
+
+---
+
+Este repositório foca em uso prático em ambientes reais.
+Para detalhes completos de comportamento e configuração, a documentação oficial deve ser a principal referência.
 
 ---
 
