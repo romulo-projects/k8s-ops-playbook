@@ -140,7 +140,7 @@ Antes de executar qualquer comando:
 ## Roadmap
 
 * [x] Relatórios reutilizáveis com saída CSV
-* [x] Testes offline dos filtros e validação no GitHub Actions
+* [x] Testes offline dos filtros para execução local
 * [x] Diagnóstico de OOMKilled, Pending e Service/EndpointSlices
 * [ ] Expansão de comandos por domínio (pods, nodes, networking)
 * [ ] Integração com ferramentas de observabilidade
