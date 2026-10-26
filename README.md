@@ -17,7 +17,37 @@ Fornecer um conjunto de comandos práticos para:
 
 ---
 
-## Command Index
+## Comece aqui
+
+Confira o contexto e escolha o namespace antes de investigar:
+
+```bash
+kubectl config current-context
+bash scripts/report.sh high-restarts meu-namespace
+bash scripts/report.sh oomkilled meu-namespace
+bash scripts/report.sh missing-resources meu-namespace
+bash scripts/report.sh stuck-terminating meu-namespace
+bash scripts/report.sh pvc-capacity meu-namespace
+```
+
+Execute os scripts da raiz do repositório. Sem namespace, consultam todos os namespaces.
+São relatórios somente de leitura com saída CSV; erros da API retornam código diferente de zero.
+Uma saída contendo apenas cabeçalho significa que nenhum item correspondeu ao filtro.
+O limiar de restarts é maior que 5; o atraso de finalização padrão é 300 segundos,
+configurável com `TERMINATING_THRESHOLD_SECONDS`.
+
+| Sintoma | Procedimento |
+| --- | --- |
+| Container reiniciando | [Restarts](commands/pods/high-restart-count.md) e [OOMKilled](commands/pods/oomkilled.md) |
+| Pod não inicia | [Pending e scheduling](commands/pods/pending.md) |
+| Service não responde | [Service e EndpointSlices](commands/networking/service-endpoints.md) |
+| Pod demora a finalizar | [Finalização atrasada](commands/pods/stuck-terminating.md) |
+| Dúvida sobre storage | [PVC: solicitação e capacidade](commands/storage/pvc-usage.md) |
+
+Leia também o [guia de escopo e impacto operacional](docs/operational-safety.md).
+Os exemplos de DNS criam Pods; restart e rollback modificam workloads.
+
+## Índice completo
 
 Browse completo dos comandos disponíveis:
 
@@ -101,17 +131,31 @@ Antes de executar qualquer comando:
 ## Requisitos
 
 * kubectl
-* jq
-* Permissões de leitura no cluster
+* jq 1.6+
+* Bash 4.4+ (Linux, macOS com Bash atualizado ou Git Bash no Windows) para scripts; GNU date para os exemplos com date -d
+* Permissões de leitura nos recursos e namespaces consultados
 
 ---
 
 ## Roadmap
 
+* [x] Relatórios reutilizáveis com saída CSV
+* [x] Testes offline dos filtros e validação no GitHub Actions
+* [x] Diagnóstico de OOMKilled, Pending e Service/EndpointSlices
 * [ ] Expansão de comandos por domínio (pods, nodes, networking)
-* [ ] Scripts reutilizáveis
 * [ ] Integração com ferramentas de observabilidade
 * [ ] Evolução para CLI
+
+## Desenvolvimento
+
+Os testes usam dados sintéticos e um kubectl simulado, sem acessar clusters:
+
+```bash
+bash tests/run.sh
+shellcheck -x scripts/*.sh tests/*.sh cheatsheet/aliases.sh
+```
+
+Requer jq e ShellCheck instalados. Veja [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 

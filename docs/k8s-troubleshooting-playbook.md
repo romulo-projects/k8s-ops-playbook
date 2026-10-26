@@ -2,6 +2,10 @@
 
 Guia prático para troubleshooting em clusters Kubernetes usando apenas `kubectl` e análise sistemática.
 
+Antes de executar, consulte [escopo e impacto operacional](operational-safety.md).
+`get`, `describe` e `logs` são consultas. `exec` executa processos, `run` cria Pods
+e `rollout undo` modifica workloads. Use namespace explícito nas investigações.
+
 ---
 
 ## Abordagem geral
@@ -30,7 +34,8 @@ kubectl -n kube-system logs -l k8s-app=kube-dns
 Testar DNS dentro do cluster:
 
 ```bash
-kubectl run dns-test --image=busybox:1.28 --rm -it -- nslookup kubernetes.default
+# CRIA POD: use namespace de diagnóstico autorizado.
+kubectl run dns-test -n <namespace> --restart=Never --image=busybox:1.37.0 --rm -it -- nslookup kubernetes.default
 ```
 
 Indicadores de problema:
@@ -45,7 +50,7 @@ Indicadores de problema:
 
 ```bash
 kubectl get svc <svc>
-kubectl get endpoints <svc>
+# Consulte EndpointSlices para os backends do Service
 kubectl get endpointslice -l kubernetes.io/service-name=<svc>
 ```
 
@@ -86,7 +91,8 @@ kubectl exec -it <pod> -- curl <service>
 ```bash
 kubectl rollout status deployment/<name>
 kubectl rollout history deployment/<name>
-kubectl rollout undo deployment/<name>
+# ALTERA O CLUSTER: confirme contexto, namespace e revisão antes de executar.
+kubectl rollout undo deployment/<name> -n <namespace>
 ```
 
 ---

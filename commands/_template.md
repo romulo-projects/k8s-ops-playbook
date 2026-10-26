@@ -1,37 +1,34 @@
-# Command Template
+# Nome do procedimento
 
-## Contexto
+## Contexto e requisitos
 
-Explique quando usar este comando.
-
----
+Qual sintoma investigar? Quais ferramentas, API e permissões são necessárias?
+Impacto: somente leitura / executa processo / altera recursos.
 
 ## Comando
+
+Informe diretório de execução, namespace e placeholders.
 
 ```bash
 # comando aqui
 ```
 
----
+## Saída esperada
+
+Colunas, exemplo sintético e significado de saída vazia.
 
 ## Explicação
 
-* O que cada parte faz
-* Campos importantes do JSON
-* Por que esse filtro existe
+Filtros, campos opcionais, threshold e unidades.
 
----
+## Cuidados e limitações
 
-## Cuidados
+Falsos positivos, retenção, escala e compatibilidade.
 
-* Quando NÃO usar
-* Possíveis falsos positivos
-* Impactos em produção
+## Próximos passos
 
----
+Como confirmar a hipótese? Para alterações, como verificar e recuperar?
 
-## Variações
+## Referências
 
-* Outras formas de executar
-* Flags úteis
-* Versão alternativa
+Link para documentação oficial.

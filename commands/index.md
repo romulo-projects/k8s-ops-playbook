@@ -23,7 +23,7 @@ Navegação central dos comandos disponíveis no playbook.
 
 | Comando                                                         | Descrição                                                       |
 | --------------------------------------------------------------- | --------------------------------------------------------------- |
-| [Find Idle Deployments](./deployments/find-idle-deployments.md) | Identifica deployments com réplicas zeradas, sem pods e antigos |
+| [Find Idle Deployments](./deployments/find-idle-deployments.md) | Lista deployments antigos com réplicas desejadas zeradas |
 
 ---
 
@@ -34,6 +34,8 @@ Navegação central dos comandos disponíveis no playbook.
 | [High Restart Count](./pods/high-restart-count.md) | Detecta containers com alto número de restarts |
 | [Missing Resources](./pods/missing-resources.md)   | Identifica pods sem requests/limits definidos  |
 | [Stuck Terminating](./pods/stuck-terminating.md)   | Lista pods presos em estado de finalização     |
+| [OOMKilled](./pods/oomkilled.md) | Detecta terminações atuais e anteriores por falta de memória |
+| [Pending](./pods/pending.md) | Distingue scheduling de espera por imagem, init ou volume |
 
 ---
 
@@ -59,9 +61,15 @@ Navegação central dos comandos disponíveis no playbook.
 | ------------------------------------------------ | --------------------------------------------------------------- |
 | [Unbound PVCs](./storage/pvc-unbound.md)         | Identifica PersistentVolumeClaims que não estão em estado Bound |
 | [Orphan PVs](./storage/pv-orphan.md)             | Detecta PersistentVolumes sem associação com PVC                |
-| [PVC Usage](./storage/pvc-usage.md)              | Lista capacidade solicitada pelos PVCs para análise de consumo  |
-| [PVC Pending](./storage/pvc-pending.md)          | Identifica falhas de provisionamento de storage                 |
+| [PVC Usage](./storage/pvc-usage.md)              | Compara solicitação e capacidade provisionada dos PVCs  |
+| [PVC Pending](./storage/pvc-pending.md)          | Lista PVCs Pending para investigar provisionamento                 |
 | [PVC to PV Mapping](./storage/pvc-pv-mapping.md) | Mostra a relação entre PVC, PV e StorageClass                   |
+
+## Rede
+
+| Comando | Descrição |
+| --- | --- |
+| [Service e EndpointSlices](./networking/service-endpoints.md) | Investiga selectors, readiness e backends |
 
 ---
 
@@ -103,7 +111,7 @@ Navegação central dos comandos disponíveis no playbook.
 
 ## Convenções
 
-* Todos os comandos são read-only por padrão
+* Os relatórios são somente leitura; ações administrativas dos guias têm impacto próprio
 * Saídas priorizam formatos estruturados (CSV/JSON)
 * Filtros são explícitos e auditáveis
 
@@ -112,9 +120,8 @@ Navegação central dos comandos disponíveis no playbook.
 ## Próximos itens
 
 * Debug de rede (DNS, Service, Ingress)
-* Detecção de OOMKilled
 * Análise de eventos avançada
-* Falhas de scheduling
+* Diagnóstico de certificados e ingress
 
 ---
 

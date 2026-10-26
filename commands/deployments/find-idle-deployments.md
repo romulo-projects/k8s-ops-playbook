@@ -2,7 +2,7 @@
 
 ## Contexto
 
-Identificar deployments que não estão sendo utilizados e podem ser candidatos à remoção.
+Listar deployments antigos com réplicas desejadas zeradas para revisão operacional. A idade do recurso não indica há quanto tempo ele está zerado.
 
 ---
 
@@ -64,6 +64,9 @@ Define um timestamp (1 mês atrás em UTC).
 
 * Pode haver scale-to-zero legítimo
 * Validar antes de deletar
+* creationTimestamp mede idade do recurso, não duração da inatividade
+* Verifique HPA, KEDA, GitOps e histórico de mudanças antes de considerar remoção
+* O exemplo usa GNU date; no macOS instale coreutils e use gdate no lugar de date
 
 ---
 

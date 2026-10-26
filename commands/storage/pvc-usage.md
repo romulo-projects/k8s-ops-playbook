@@ -1,39 +1,29 @@
-# PVC Usage (Capacity vs Request)
+# PVC: solicitação versus capacidade provisionada
 
-## Contexto
+## Contexto e requisitos
 
-Comparar capacidade provisionada dos volumes.
-
----
+Comparar o storage solicitado com a capacidade reportada pelo PVC.
+Requer Bash, kubectl, jq e leitura de PVCs. Impacto: somente leitura.
 
 ## Comando
 
+Da raiz do repositório:
+
 ```bash
-kubectl get pvc -A -o json | jq -r '
-[
-  "namespace","pvc","requested_storage"
-],
-(
-  .items[]
-  | [
-      .metadata.namespace,
-      .metadata.name,
-      .spec.resources.requests.storage
-    ]
-)
-| @csv'
+bash scripts/report.sh pvc-capacity
+bash scripts/report.sh pvc-capacity meu-namespace
 ```
 
----
+## Saída e limitações
 
-## Explicação
+CSV: namespace, pvc, requestedStorage, provisionedCapacity, phase.
+Capacidade ausente aparece vazia em PVCs ainda não vinculados.
+Valores mantêm as unidades Kubernetes (por exemplo, Gi e Mi); não compare essas strings numericamente.
 
-* Mostra storage solicitado
-* Base para análise de consumo
+Nenhuma coluna representa espaço efetivamente ocupado no filesystem.
+Para consumo real, consulte métricas do kubelet/CSI quando disponíveis, como
+`kubelet_volume_stats_used_bytes` e `kubelet_volume_stats_capacity_bytes`.
+A disponibilidade depende do driver e do tipo de volume.
+Durante expansão, solicitação e capacidade podem divergir temporariamente.
 
----
-
-## Limitação
-
-* kubectl não mostra uso real
-* precisa de métricas externas (Prometheus)
+[Referência: PersistentVolumes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)

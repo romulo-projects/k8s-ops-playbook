@@ -25,6 +25,17 @@ Cenários comuns:
 
 ## Comando
 
+Relatório reutilizável, da raiz do repositório (Bash, kubectl e jq 1.6+):
+
+```bash
+bash scripts/report.sh high-restarts meu-namespace
+```
+
+Sem namespace, consulta todos os namespaces. Inclui init containers e ignora listas de status ausentes.
+Impacto: somente leitura; requer permissão para listar pods no escopo escolhido.
+
+Alternativa para execução manual:
+
 ```bash
 kubectl get pods -A -o json | jq -r '
 [
@@ -34,7 +45,7 @@ kubectl get pods -A -o json | jq -r '
   .items[]
   | .metadata.namespace as $ns
   | .metadata.name as $pod
-  | .status.containerStatuses[]
+  | ((.status.containerStatuses // []) + (.status.initContainerStatuses // []))[]
   | select(.restartCount > 5)
   | [
       $ns,
@@ -63,7 +74,7 @@ Colunas:
 
 ## Explicação
 
-* `.status.containerStatuses[]` → nível de container (mais granular que pod)
+* `((.status.containerStatuses // []) + (.status.initContainerStatuses // []))[]` → nível de container (mais granular que pod)
 * `restartCount > 5` → threshold ajustável conforme ambiente
 * Uso de `jq` permite filtragem precisa e saída estruturada
 
@@ -99,6 +110,7 @@ kubectl describe pod <pod> -n <namespace>
 
 ```bash
 kubectl logs <pod> -n <namespace> -c <container>
+kubectl logs <pod> -n <namespace> -c <container> --previous --tail=100
 ```
 
 3. Verificar eventos:

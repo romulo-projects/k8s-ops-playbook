@@ -1,49 +1,29 @@
-# Pods Without Resource Requests/Limits
+# Containers com requests ou limits incompletos
 
-## Contexto
+## Contexto e requisitos
 
-Detectar workloads que podem causar:
-
-* starvation
-* overcommit descontrolado
-* problemas de scheduling
-
----
+Auditar CPU e memória em containers de aplicação. Requer Bash, kubectl, jq e leitura de pods.
+Execute da raiz do repositório. Impacto: somente leitura.
 
 ## Comando
 
 ```bash
-kubectl get pods -A -o json | jq -r '
-[
-  "namespace","pod","container","hasRequests","hasLimits"
-],
-(
-  .items[]
-  | .metadata.namespace as $ns
-  | .metadata.name as $pod
-  | .spec.containers[]
-  | [
-      $ns,
-      $pod,
-      .name,
-      (.resources.requests != null),
-      (.resources.limits != null)
-    ]
-)
-| @csv'
+bash scripts/report.sh missing-resources
+# Restringir o escopo:
+bash scripts/report.sh missing-resources meu-namespace
 ```
 
----
+## Saída esperada
 
-## Explicação
+CSV: namespace, pod, container, requestCPU, requestMemory, limitCPU, limitMemory.
+Mostra apenas containers com pelo menos um dos quatro campos ausente; campos ausentes ficam vazios.
+Objetos vazios não são considerados configurações completas.
 
-* Verifica se há `requests` e `limits`
-* Retorna booleano → fácil de filtrar depois
+## Cuidados e próximos passos
 
----
+Este relatório cobre `spec.containers`, não init containers nem recursos no nível do Pod.
+Ausência de CPU limit pode ser intencional. Não aplique limits automaticamente:
+avalie política da equipe, throttling, histórico de uso e capacidade do cluster.
+O relatório reflete o Pod admitido, incluindo defaults aplicados por LimitRange.
 
-## Insight
-
-Se `requests` não existe → scheduler toma decisão ruim
-
-Se `limits` não existe → risco de noisy neighbor
+[Referência: gerenciamento de recursos](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)

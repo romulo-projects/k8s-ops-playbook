@@ -43,5 +43,5 @@ kubectl get pods -A -o json | jq -r '
 Pipe com `sort | uniq -c` para ver concentração:
 
 ```bash
-kubectl get pods -A -o json | jq -r '.items[].spec.nodeName' | sort | uniq -c
+kubectl get pods -A -o json | jq -r '.items[] | select(.status.phase != "Succeeded" and .status.phase != "Failed") | .spec.nodeName // empty' | sort | uniq -c
 ```

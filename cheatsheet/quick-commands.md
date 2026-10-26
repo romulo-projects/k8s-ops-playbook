@@ -2,6 +2,9 @@
 
 Comandos rápidos para troubleshooting e operação no dia a dia.
 
+Confira [contexto, namespace e impacto](../docs/operational-safety.md) antes de executar.
+`rollout restart` altera workloads; o teste DNS cria um Pod temporário.
+
 ---
 
 ## Triage inicial
@@ -37,7 +40,8 @@ kubectl get pods -A
 ### Restart de deployment
 
 ```bash
-kubectl rollout restart deployment <name>
+# ALTERA O CLUSTER: confirme contexto e namespace antes do restart.
+kubectl rollout restart deployment <name> -n <namespace>
 ```
 
 ---
@@ -125,7 +129,8 @@ kubectl get nodes
 ### Teste de DNS
 
 ```bash
-kubectl run dns-test --image=busybox:latest --rm -it -- nslookup kubernetes.default
+# CRIA POD: use namespace de diagnóstico autorizado.
+kubectl run dns-test -n <namespace> --restart=Never --image=busybox:1.37.0 --rm -it -- nslookup kubernetes.default
 ```
 
 ---
